@@ -162,7 +162,7 @@ pub struct Connection {
     stream: TcpStream,
     // Username and password are stored for the case if router will close the connection, e.g. because of network error
     username: String,
-    password: String
+    password: String,
 }
 
 impl Connection {
@@ -170,12 +170,14 @@ impl Connection {
         match TcpStream::connect(addr) {
             Ok(stream) => {
                 let mut connection = Connection {
-                    stream, username: username.to_owned(), password: password.to_owned()
+                    stream,
+                    username: username.to_owned(),
+                    password: password.to_owned(),
                 };
                 methods::login(&mut connection, username.to_owned(), password.to_owned());
                 Some(connection)
-            },
-            Err(_) => None
+            }
+            Err(_) => None,
         }
     }
 
@@ -201,9 +203,7 @@ impl Connection {
             length = [data[0], 0, 0, 0];
             add = 1;
         }
-        unsafe {
-            std::mem::transmute::<[u8;4], u32>(length) + add
-        }
+        unsafe { std::mem::transmute::<[u8; 4], u32>(length) + add }
     }
 
     // TODO: Handle IO errors properly
