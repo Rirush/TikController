@@ -9,7 +9,7 @@ pub fn force_backup(id: u64) -> Result<(), Status> {
 #[derive(Serialize)]
 pub struct BackupDetails {
     pub id: u64,
-    pub date: String
+    pub date: String,
 }
 
 #[get("/router/backup/<id>", rank = 1)]

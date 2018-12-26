@@ -7,7 +7,7 @@ pub struct StartControllingRouterCredentials {
     pub port: Option<u8>,
     pub username: String,
     pub password: String,
-    pub description: Option<String>
+    pub description: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -22,11 +22,13 @@ pub struct RouterDetails {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub problem_description: Option<String>,
     pub backup_date: String,
-    pub software_version: String
+    pub software_version: String,
 }
 
 #[post("/router", data = "<creds>")]
-pub fn start_controlling(creds: Json<StartControllingRouterCredentials>) -> Result<Json<RouterDetails>, Status> {
+pub fn start_controlling(
+    creds: Json<StartControllingRouterCredentials>,
+) -> Result<Json<RouterDetails>, Status> {
     Err(Status::raw(501))
 }
 
@@ -38,7 +40,7 @@ pub fn list_routers() -> Result<Json<Vec<RouterDetails>>, Status> {
 #[derive(Serialize)]
 pub struct AdminCredentials {
     pub username: String,
-    pub password: String
+    pub password: String,
 }
 
 #[delete("/router?<id>")]
@@ -49,7 +51,7 @@ pub fn stop_controlling(id: u8) -> Result<Json<AdminCredentials>, Status> {
 #[derive(Deserialize)]
 pub struct PatchData {
     pub description: Option<String>,
-    pub address: Option<String>
+    pub address: Option<String>,
 }
 
 #[patch("/router/<id>", data = "<info>")]

@@ -5,7 +5,7 @@ use rocket_contrib::json::Json;
 pub struct LogEntry {
     pub date: String,
     pub severity: u8,
-    pub message: String
+    pub message: String,
 }
 
 #[get("/router/<id>/logs?<entries>")]

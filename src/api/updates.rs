@@ -6,7 +6,7 @@ pub struct SoftwareStatus {
     pub current: String,
     pub update_available: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub new: Option<String>
+    pub new: Option<String>,
 }
 
 #[get("/router/<id>/update", rank = 0)]
