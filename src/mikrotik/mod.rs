@@ -157,6 +157,15 @@ impl Sentence {
     }
 }
 
+use std::ops::Index;
+impl Index<usize> for Sentence {
+    type Output = Word;
+
+    fn index(&self, index: usize) -> &Word {
+        self.words.get(index).unwrap()
+    }
+}
+
 use std::net::TcpStream;
 pub struct Connection {
     stream: TcpStream,
@@ -174,8 +183,10 @@ impl Connection {
                     username: username.to_owned(),
                     password: password.to_owned(),
                 };
-                methods::login(&mut connection, username.to_owned(), password.to_owned());
-                Some(connection)
+                match methods::login(&mut connection, username.to_owned(), password.to_owned()) {
+                    Ok(_) => Some(connection),
+                    Err(_) => None,
+                }
             }
             Err(_) => None,
         }
@@ -220,5 +231,17 @@ impl Connection {
         let mut buf: Vec<u8> = vec![0; len as usize];
         self.stream.read(buf.as_mut());
         Word::parse(buf.as_ref())
+    }
+
+    pub fn read_sentence(&mut self) -> Sentence {
+        let mut res: Sentence = Sentence::new();
+        loop {
+            let word = self.read_word();
+            if word.len() == 0 {
+                break;
+            }
+            res = res.add_word(word);
+        }
+        res
     }
 }
