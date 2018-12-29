@@ -155,6 +155,10 @@ impl Sentence {
         }
         result
     }
+
+    pub fn len(&self) -> usize {
+        self.words.len()
+    }
 }
 
 use std::ops::Index;
