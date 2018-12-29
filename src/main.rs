@@ -14,6 +14,7 @@ mod router;
 mod syslog;
 
 fn main() {
+    syslog::start_server();
     rocket::ignite()
         .mount(
             "/",
